@@ -13,5 +13,52 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{0e502b19-830f-4a49-83fa-e23069deaccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLAD">
+      <UniqueIdentifier>{ddddb3a3-e77f-47cb-b71a-c52976f4a42f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Vertex Shader">
+      <UniqueIdentifier>{964bcbe6-fd6b-4f58-a618-e45c087f3b68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Fragment Shader">
+      <UniqueIdentifier>{a960491e-f86c-4096-bb61-8a935afc512d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader">
+      <UniqueIdentifier>{b6a45861-bab3-46a6-b6d3-bbe8b5ddcfd3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files\GLAD</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Fragment Shader\HelloTriangle.fsh">
+      <Filter>Resource Files\Fragment Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Vertex Shader\HelloTriangle.vsh">
+      <Filter>Resource Files\Vertex Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
