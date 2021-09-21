@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-class VertexShader :
+class FragmentShader :
     public Shader
 {
 public:

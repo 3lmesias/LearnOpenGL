@@ -42,16 +42,12 @@
     <ClCompile Include="VertexShader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Fragment Shader\HelloTriangle.fsh">
-      <Filter>Resource Files\Fragment Shader</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Vertex Shader\HelloTriangle.vsh">
-      <Filter>Resource Files\Vertex Shader</Filter>
-    </FxCompile>
+    <ClCompile Include="FragmentShader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="OGLProgram.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -60,5 +56,19 @@
     <ClInclude Include="VertexShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FragmentShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OGLProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LearnOpenGL.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
-#include "VertexShader.h"
+#include "FragmentShader.h"
 
+void FragmentShader::CretateShader(const char* code) {
 
-void VertexShader::CretateShader(const char* code) {
-    ShaderId = glCreateShader(GL_VERTEX_SHADER);
+    ShaderId = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(ShaderId, 1, &code, NULL);
     glCompileShader(ShaderId);
 
@@ -12,6 +12,6 @@ void VertexShader::CretateShader(const char* code) {
         glGetShaderInfoLog(ShaderId, 512, NULL, infoLog);
     }
 }
-char* VertexShader::GetError() {
+char* FragmentShader::GetError() {
     return infoLog;
 }

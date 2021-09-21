@@ -145,20 +145,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OGLProgram.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fragment Shader\HelloTriangle.fsh" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Vertex Shader\HelloTriangle.vsh" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="FragmentShader.h" />
+    <ClInclude Include="OGLProgram.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="VertexShader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LearnOpenGL.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
