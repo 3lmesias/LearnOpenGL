@@ -162,6 +162,10 @@
   <ItemGroup>
     <ResourceCompile Include="LearnOpenGL.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Fragment Shader\HelloTriangle._fs" />
+    <None Include="Vertex Shader\HelloTriangle._vs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
