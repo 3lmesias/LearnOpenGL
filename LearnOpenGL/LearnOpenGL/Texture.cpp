@@ -3,6 +3,7 @@
 Texture::Texture(const char* imagePath, int format, int bind) {
 	Bind_ = bind;
 	unsigned char* data;
+	stbi_set_flip_vertically_on_load(true);
 	data = stbi_load(imagePath, &width, &height, &chanels, 0);
 	if (data) {
 		glGenTextures(1, &TextureId);
