@@ -14,17 +14,33 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Camera.h"
 
 using namespace std;
+
+bool firstMouse;
 
 int Screen_H = 600;
 int Screen_W = 800;
 
+float lastX = Screen_W / 2;
+float lastY = Screen_H / 2;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
+
+//Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+
+// timing
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
 
 int main() {
-
+	firstMouse = true;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -48,6 +64,10 @@ int main() {
 	//set resize callback
 	//callabaks goes after the window is created and before the render loop
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	int nrAttributes;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
@@ -202,23 +222,22 @@ int main() {
 	
 	//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
 
-	glm::mat4 view = glm::mat4(1.0f);
-	// note that we're translating the scene in the reverse direction of where we want to move
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(45.0f), (float)Screen_W / (float)Screen_H, 0.1f, 100.0f);
-
-	program.use();
-	glUniformMatrix4fv(program.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(program.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection));
-
+	//glm::mat4 view = glm::mat4(1.0f);
+	//// note that we're translating the scene in the reverse direction of where we want to move
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	
 	//int vertexColorLocation = glGetUniformLocation(program.shaderProgram, "ourColor");
 	//render loop
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
 	{
-		float timeVAlue = glfwGetTime();
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+		float scaleAmount = sin(glfwGetTime());
+		float time = glfwGetTime();
+
+		float timeVAlue = currentFrame;
 		float greenValue = (sin(timeVAlue) / 2.0f) + 0.5f;
 
 		processInput(window);
@@ -229,11 +248,7 @@ int main() {
 
 		program.use();
 		//first use program before updating uniform
-		// 
-		//glUniform4f(program.GetUniform("ourColor"), 0.0f, greenValue, 0.0f, 1.0f);
 
-		float scaleAmount = sin(glfwGetTime());
-		float time = glfwGetTime();
 		//glm::mat4 trans = glm::mat4(1.0f);
 		//trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 		//trans = glm::rotate(trans, (float)glfwGetTime()*4, glm::vec3(0.0f, 0.0f, 1.0f));
@@ -241,8 +256,15 @@ int main() {
 
 		texture2.Bind();
 		texture.Bind();
-		glBindVertexArray(VAO);
 
+		glm::mat4 view = camera.GetViewMatrix();
+		glUniformMatrix4fv(program.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(view));
+
+		glm::mat4 projection;
+		projection = glm::perspective(glm::radians(camera.Zoom), (float)Screen_W / (float)Screen_H, 0.1f, 100.0f);
+		glUniformMatrix4fv(program.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+		glBindVertexArray(VAO);
 		for (unsigned int i = 0; i < 10; i++) {
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePositions[i]);
@@ -280,4 +302,38 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 		glfwSetWindowShouldClose(window, true);
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+		camera.ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		camera.ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+		camera.ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
+	}
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+	camera.ProcessMouseScroll(yoffset);
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+
+	if (firstMouse) {
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xOffset = xpos - lastX;
+	float yOffset = lastY- ypos;
+
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.PorcessMousemovment(xOffset, yOffset);
 }
