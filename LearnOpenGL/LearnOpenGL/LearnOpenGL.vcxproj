@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="OGLProgram.h" />
     <ClInclude Include="resource.h" />
@@ -172,7 +173,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shader\HelloTriangle._fs" />
+    <None Include="Fragment Shader\color_lighting._fs" />
+    <None Include="Fragment Shader\light_lighting._fs" />
     <None Include="Vertex Shader\HelloTriangle._vs" />
+    <None Include="Vertex Shader\cube_lighting._vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

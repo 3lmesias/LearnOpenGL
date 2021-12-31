@@ -15,6 +15,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.h"
+#include "Cube.h"
 
 using namespace std;
 
@@ -35,11 +36,14 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 //Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
 // timing
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 int main() {
+	glm::vec3 coral(1.0f, 0.5f, 0.31f);
 	firstMouse = true;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -94,50 +98,6 @@ int main() {
 		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 	};
 
-	float cubeVertices[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-
 	glm::vec3 cubePositions[] = {
 	glm::vec3(0.0f,  0.0f,  0.0f),
 	glm::vec3(2.0f,  5.0f, -15.0f),
@@ -156,11 +116,6 @@ int main() {
 	1, 2, 3 // second triangle
 	};
 
-	// bind VAO
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
 	//texture config 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -168,12 +123,10 @@ int main() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-
-	//unsigned int EBO;
-	//glGenBuffers(1, &EBO);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
+	// bind VAO
+	unsigned int cubeVAO;
+	glGenVertexArrays(1, &cubeVAO);
+	glBindVertexArray(cubeVAO);
 
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
@@ -181,22 +134,23 @@ int main() {
 	//GL_STREAM_DRAW: the data is set only once and used by the GPU at most a few times.
 	//GL_STATIC_DRAW : the data is set only once and used many times.
 	//GL_DYNAMIC_DRAW : the data is changed a lot and used many times.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVerticesNormal), cubeVerticesNormal, GL_STATIC_DRAW);
 
 	//define attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3*sizeof(float)));
-	//glEnableVertexAttribArray(1);
-
-	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	//glEnableVertexAttribArray(2);
-
-
+	unsigned int lightVAO;
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+	// add buffer
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//define attributes
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -205,40 +159,31 @@ int main() {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//shader
-	Shader2 program("Vertex Shader\\HelloTriangle._vs", "Fragment Shader\\HelloTriangle._fs");
+	Shader2 cubeShader("Vertex Shader\\cube_lighting._vs", "Fragment Shader\\color_lighting._fs");
+	Shader2 lightShader("Vertex Shader\\cube_lighting._vs", "Fragment Shader\\light_lighting._fs");
 
-	Texture texture("Images\\wall.jpg", GL_RGB,0);
-	Texture texture2("Images\\awesomeface.png", GL_RGBA,1);
-	program.use();
-	program.SetInt("texture1", texture.Bind_);
-	program.SetInt("texture2", texture2.Bind_);
-
-
-
-	//glm::mat4 trans = glm::mat4(1.0f);
-	//trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-	//trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
-
+	//set cube color
+	cubeShader.use();
+	cubeShader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+	cubeShader.SetVec3("lightColor", glm::vec3(1.0f));
+	cubeShader.SetVec3("lightPos", lightPos);
 	
-	//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
 
-	//glm::mat4 view = glm::mat4(1.0f);
-	//// note that we're translating the scene in the reverse direction of where we want to move
-	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-	
-	//int vertexColorLocation = glGetUniformLocation(program.shaderProgram, "ourColor");
+
+	//Texture texture("Images\\wall.jpg", GL_RGB,0);
+	//Texture texture2("Images\\awesomeface.png", GL_RGBA,1);
+	//program.use();
+	//program.SetInt("texture1", texture.Bind_);
+	//program.SetInt("texture2", texture2.Bind_);
+
 	//render loop
 	glEnable(GL_DEPTH_TEST);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		float scaleAmount = sin(glfwGetTime());
-		float time = glfwGetTime();
-
-		float timeVAlue = currentFrame;
-		float greenValue = (sin(timeVAlue) / 2.0f) + 0.5f;
 
 		processInput(window);
 
@@ -246,42 +191,33 @@ int main() {
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-		program.use();
-		//first use program before updating uniform
-
-		//glm::mat4 trans = glm::mat4(1.0f);
-		//trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-		//trans = glm::rotate(trans, (float)glfwGetTime()*4, glm::vec3(0.0f, 0.0f, 1.0f));
-		//glUniformMatrix4fv(program.GetUniform("transform"), 1, GL_FALSE, glm::value_ptr(trans));
-
-		texture2.Bind();
-		texture.Bind();
-
 		glm::mat4 view = camera.GetViewMatrix();
-		glUniformMatrix4fv(program.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(view));
-
 		glm::mat4 projection;
 		projection = glm::perspective(glm::radians(camera.Zoom), (float)Screen_W / (float)Screen_H, 0.1f, 100.0f);
-		glUniformMatrix4fv(program.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-		glBindVertexArray(VAO);
-		for (unsigned int i = 0; i < 10; i++) {
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
-			glUniformMatrix4fv(program.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
+		glm::mat4 model = glm::mat4(1);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
 
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		lightShader.use();
+		glUniformMatrix4fv(lightShader.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(lightShader.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(lightShader.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+		glBindVertexArray(lightVAO);
 
-		//trans = glm::mat4(1.0f);
-		//trans = glm::translate(trans, glm::vec3(-0.5f, 0.5f, 0.0f));
-		//
-		//trans = glm::scale(trans, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
-		//glUniformMatrix4fv(program.GetUniform("transform"), 1, GL_FALSE, glm::value_ptr(trans));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		cubeShader.use();
+		model = glm::mat4(1);
+		glUniformMatrix4fv(lightShader.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(lightShader.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(lightShader.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+		glBindVertexArray(cubeVAO);
+
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		//texture2.Bind();
+		//texture.Bind();
 
 		//takes the render buffer and display it on the window
 		glfwSwapBuffers(window);
@@ -289,7 +225,6 @@ int main() {
 		glfwPollEvents();
 		glBindVertexArray(0);
 	}
-
 	glfwTerminate();
 	return 0;
 }

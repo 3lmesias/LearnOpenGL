@@ -92,6 +92,9 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="LearnOpenGL.rc">
@@ -104,6 +107,15 @@
     </None>
     <None Include="Vertex Shader\HelloTriangle._vs">
       <Filter>Resource Files\Vertex Shader</Filter>
+    </None>
+    <None Include="Fragment Shader\color_lighting._fs">
+      <Filter>Resource Files\Fragment Shader</Filter>
+    </None>
+    <None Include="Vertex Shader\cube_lighting._vs">
+      <Filter>Resource Files\Vertex Shader</Filter>
+    </None>
+    <None Include="Fragment Shader\light_lighting._fs">
+      <Filter>Resource Files\Fragment Shader</Filter>
     </None>
   </ItemGroup>
 </Project>
