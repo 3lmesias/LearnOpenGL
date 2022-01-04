@@ -172,11 +172,14 @@
     <ResourceCompile Include="LearnOpenGL.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fragment Shader\DirectionaLight._fs" />
     <None Include="Fragment Shader\HelloTriangle._fs" />
     <None Include="Fragment Shader\color_lighting._fs" />
     <None Include="Fragment Shader\light_lighting._fs" />
+    <None Include="Fragment Shader\map_lighting._fs" />
     <None Include="Vertex Shader\HelloTriangle._vs" />
     <None Include="Vertex Shader\cube_lighting._vs" />
+    <None Include="Vertex Shader\map_lighting._vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

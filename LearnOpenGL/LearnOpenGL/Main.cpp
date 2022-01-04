@@ -134,14 +134,15 @@ int main() {
 	//GL_STREAM_DRAW: the data is set only once and used by the GPU at most a few times.
 	//GL_STATIC_DRAW : the data is set only once and used many times.
 	//GL_DYNAMIC_DRAW : the data is changed a lot and used many times.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVerticesNormal), cubeVerticesNormal, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVerticesNormalTexture), cubeVerticesNormalTexture, GL_STATIC_DRAW);
 
 	//define attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 
 	unsigned int lightVAO;
 	glGenVertexArrays(1, &lightVAO);
@@ -149,7 +150,7 @@ int main() {
 	// add buffer
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	//define attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	glBindVertexArray(0);
@@ -159,18 +160,30 @@ int main() {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	//shader
-	Shader2 cubeShader("Vertex Shader\\cube_lighting._vs", "Fragment Shader\\color_lighting._fs");
+	Shader2 cubeShader("Vertex Shader\\map_lighting._vs", "Fragment Shader\\DirectionaLight._fs");
 	Shader2 lightShader("Vertex Shader\\cube_lighting._vs", "Fragment Shader\\light_lighting._fs");
 
 	//set cube color
 	cubeShader.use();
-	cubeShader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-	cubeShader.SetVec3("lightColor", glm::vec3(1.0f));
-	cubeShader.SetVec3("lightPos", lightPos);
+	Texture diffuse("Images\\container2.png", 0);
+	Texture specular("Images\\container2_specular.png", 1);
+	//cubeShader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+	//cubeShader.SetVec3("material.ambient", glm::vec3(0.19225f, 0.19225f, 0.19225f));
+	//cubeShader.SetVec3("material.diffuse", glm::vec3(0.50754f, 0.50754f, 0.50754f));
+	cubeShader.SetInt("material.specular", specular.Bind_);
+	cubeShader.SetFloat("material.shininess", 128.0f * 0.4f);
+	cubeShader.SetInt("material.ambient", diffuse.Bind_);
+
+	//cubeShader.SetVec3("lightColor", glm::vec3(1.0f));
+	//cubeShader.SetVec3("lightPos", lightPos);
+	cubeShader.SetVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+	cubeShader.SetVec3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f)); // darken diffuse light a bit
+	cubeShader.SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+	cubeShader.SetVec3("light.position", camera.GetViewMatrix() * glm::vec4(lightPos,1.0f) );
+	
 	
 
 
-	//Texture texture("Images\\wall.jpg", GL_RGB,0);
 	//Texture texture2("Images\\awesomeface.png", GL_RGBA,1);
 	//program.use();
 	//program.SetInt("texture1", texture.Bind_);
@@ -188,7 +201,7 @@ int main() {
 		processInput(window);
 
 		//Configures color used by glClear
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
 		glm::mat4 view = camera.GetViewMatrix();
@@ -205,16 +218,32 @@ int main() {
 		glUniformMatrix4fv(lightShader.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 		glBindVertexArray(lightVAO);
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		cubeShader.use();
 		model = glm::mat4(1);
 		glUniformMatrix4fv(lightShader.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(lightShader.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(lightShader.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection));
-		glBindVertexArray(cubeVAO);
+		cubeShader.SetVec3("light.direction", camera.GetViewMatrix() * glm::vec4(-1.0f, 0.0f, 0.0f, 0.0f));
+		
+		diffuse.Bind();
+		specular.Bind();
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(cubeVAO);
+		for (unsigned int i = 0; i < 10; i++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[i]);
+			float angle = 20.0f * i;
+			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+			glUniformMatrix4fv(lightShader.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+
+
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//texture2.Bind();
 		//texture.Bind();

@@ -18,7 +18,7 @@ public:
 	
 	unsigned int TextureId;
 
-	Texture(const char* imagePath, int format, int bind);
+	Texture(const char* imagePath, int bind);
 	void Bind();
 };
 #endif
