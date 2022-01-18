@@ -19,9 +19,6 @@ Texture::Texture(const char* imagePath, int bind) {
 		glBindTexture(GL_TEXTURE_2D, TextureId);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-
-
-
 	}
 	else {
 		std::cout << "Failed to load texture: " << imagePath << std::endl;

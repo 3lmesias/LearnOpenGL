@@ -19,6 +19,17 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "imgui/imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
+// [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
+// To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
+// Your own project should not be affected, as you are likely to link with a newer binary of GLFW that is adequate for your version of Visual Studio.
+#if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
+#pragma comment(lib, "legacy_stdio_definitions")
+#endif
+
 
 using namespace std;
 
@@ -46,14 +57,15 @@ float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
 
 int main() {
-	Assimp::Importer imp;
+	stbi_set_flip_vertically_on_load(true);
+	const char* glsl_version = "#version 130";
 	glm::vec3 coral(1.0f, 0.5f, 0.31f);
 	firstMouse = true;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	GLFWwindow* window = glfwCreateWindow(Screen_W, Screen_H, "My window", NULL, NULL);
 	if (window == NULL) {
@@ -66,6 +78,20 @@ int main() {
 		cout << "Failed to initialize GLAD" << endl;
 		return -1;
 	}
+
+
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init(glsl_version);
+
 
 	// tell open gl the size of the window
 	glViewport(0, 0, Screen_W, Screen_H);
@@ -268,6 +294,9 @@ int main() {
 	//render loop
 	glEnable(GL_DEPTH_TEST);
 
+	bool show_another_window = true;
+	bool show_demo_window = true;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
@@ -347,11 +376,28 @@ int main() {
 		//texture2.Bind();
 		//texture.Bind();
 
-		//takes the render buffer and display it on the window
-		glfwSwapBuffers(window);
+
 		//check event triggers
 		glfwPollEvents();
 		glBindVertexArray(0);
+
+
+		// Start the Dear ImGui frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		ImGui::ShowDemoWindow(&show_demo_window);
+		//ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+		//ImGui::Text("Hello from another window!");
+		//if (ImGui::Button("Close Me"))
+		//	show_another_window = false;
+		//ImGui::End();
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		//takes the render buffer and display it on the window
+		glfwSwapBuffers(window);
+
 	}
 	glfwTerminate();
 	return 0;
