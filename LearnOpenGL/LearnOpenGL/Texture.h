@@ -1,14 +1,14 @@
 #pragma once
 
-#ifndef TEXTURE
-#define TEXTURE
+#ifndef TEXTUREC
+#define TEXTUREC
 
 #include "stb_image.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-class Texture
+class TextureC
 {
 public:
 	int width;
@@ -18,7 +18,7 @@ public:
 	
 	unsigned int TextureId;
 
-	Texture(const char* imagePath, int bind);
+	TextureC(const char* imagePath, int bind);
 	void Bind();
 };
 #endif

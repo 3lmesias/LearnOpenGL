@@ -9,7 +9,7 @@
 
 class Model {
 public:
-	Model(char* path) {
+	Model(const char* path) {
 		LoadModel(path);
 	}
 	void Draw(Shader2 &shader);

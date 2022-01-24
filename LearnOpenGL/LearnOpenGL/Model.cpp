@@ -15,7 +15,7 @@ void Model::LoadModel(std::string path) {
 		return;
 	}
 	
-	directory = path.substr(0, path.find_last_of('/'));
+	directory = path.substr(0, path.find_last_of('\\'));
 	ProcessNode(scene->mRootNode, scene);
 }
 
@@ -90,7 +90,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 
 unsigned int TextureFromFile(const char* imagePath, std::string  &directory) {
 	std::string filename = std::string(imagePath);
-	filename = directory + '/' + filename;
+	filename = directory + '\\' + filename;
 	
 	unsigned int textureId;
 	unsigned char* data;

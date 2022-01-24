@@ -197,12 +197,14 @@
     <None Include="Fragment Shader\color_lighting._fs" />
     <None Include="Fragment Shader\light_lighting._fs" />
     <None Include="Fragment Shader\map_lighting._fs" />
+    <None Include="Fragment Shader\model_shader._fs" />
     <None Include="Fragment Shader\MultiLight._fs" />
     <None Include="Fragment Shader\PointLight._fs" />
     <None Include="Fragment Shader\SpotLight._fs" />
     <None Include="Vertex Shader\HelloTriangle._vs" />
     <None Include="Vertex Shader\cube_lighting._vs" />
     <None Include="Vertex Shader\map_lighting._vs" />
+    <None Include="Vertex Shader\model_shader._vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

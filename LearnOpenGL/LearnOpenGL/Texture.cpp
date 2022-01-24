@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Texture::Texture(const char* imagePath, int bind) {
+TextureC::TextureC(const char* imagePath, int bind) {
 	Bind_ = bind;
 	unsigned char* data;
 	stbi_set_flip_vertically_on_load(true);
@@ -27,7 +27,7 @@ Texture::Texture(const char* imagePath, int bind) {
 
 }
 
-void Texture::Bind() {
+void TextureC::Bind() {
 	glActiveTexture(GL_TEXTURE0 + Bind_);
 	glBindTexture(GL_TEXTURE_2D, TextureId);
 }

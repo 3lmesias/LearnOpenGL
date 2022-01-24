@@ -16,6 +16,9 @@ void Mesh::SetupMesh() {
 
 	//sets data
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	//GL_STREAM_DRAW: the data is set only once and used by the GPU at most a few times.
+	//GL_STATIC_DRAW : the data is set only once and used many times.
+	//GL_DYNAMIC_DRAW : the data is changed a lot and used many times.
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -34,6 +37,7 @@ void Mesh::SetupMesh() {
 void Mesh::Draw(Shader2& shader) {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
+	shader.SetFloat("material.shininess", 128.0f * 0.4f);
 	for (unsigned int i = 0; i < textures.size(); i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		std::string number;
