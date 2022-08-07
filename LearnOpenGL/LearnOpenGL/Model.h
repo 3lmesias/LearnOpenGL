@@ -1,11 +1,12 @@
 #pragma once
+#ifndef MODEL
+#define MODEL
+
 #include "Mesh.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "stb_image.h"
-#ifndef MODEL
-#define MODEL
 
 class Model {
 public:

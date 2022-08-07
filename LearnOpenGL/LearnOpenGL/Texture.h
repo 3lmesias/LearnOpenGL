@@ -1,5 +1,4 @@
 #pragma once
-
 #ifndef TEXTUREC
 #define TEXTUREC
 
@@ -21,4 +20,4 @@ public:
 	TextureC(const char* imagePath, int bind);
 	void Bind();
 };
-#endif
+#endif // !TEXTUREC

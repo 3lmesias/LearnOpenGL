@@ -149,7 +149,8 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 
 		if (!skip) {
 			Texture texture;
-			texture.id = TextureFromFile(str.C_Str(), directory);
+			const char* imagePath = str.C_Str();
+			texture.id = TextureFromFile(imagePath, directory);
 			texture.type = type;
 			texture.path = str.C_Str();
 			textures.push_back(texture);

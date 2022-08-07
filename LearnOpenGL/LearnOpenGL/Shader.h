@@ -1,4 +1,7 @@
 #pragma once
+#ifndef SHADER
+#define SHADER
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 class Shader
@@ -15,3 +18,4 @@ public:
 	virtual void Delete();
 };
 
+#endif // !SHADER

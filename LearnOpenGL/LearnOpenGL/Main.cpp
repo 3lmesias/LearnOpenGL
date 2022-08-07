@@ -1,29 +1,4 @@
-#include <iostream>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <stdio.h>
-#include <fstream>
-#include <sstream> 
-#include <string> 
-#include "Shader.h"
-#include "Shader2.h"
-#include "VertexShader.h"
-#include "FragmentShader.h"
-#include "OGLProgram.h"
-#include "Texture.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "Camera.h"
-#include "Cube.h"
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-#include "imgui/imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-#include "Model.h"
-#include <filesystem>
+#include "Main.h"
 
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
 // To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
@@ -126,9 +101,6 @@ int main() {
 		glm::vec3(0.0f,  0.0f, -3.0f)
 	};
 
-
-
-
 	unsigned int lightVAO;
 	glGenVertexArrays(1, &lightVAO);
 	glBindVertexArray(lightVAO);
@@ -136,7 +108,7 @@ int main() {
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVerticesNormalTexture), cubeVerticesNormalTexture, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(PrimArray::cubeVertices_NormalTexture), PrimArray::cubeVertices_NormalTexture, GL_STATIC_DRAW);
 
 	//define attributes
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
@@ -263,12 +235,12 @@ int main() {
 
 
 		// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-		ImGui::ShowDemoWindow(&show_demo_window);
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		//ImGui_ImplOpenGL3_NewFrame();
+		//ImGui_ImplGlfw_NewFrame();
+		//ImGui::NewFrame();
+		//ImGui::ShowDemoWindow(&show_demo_window);
+		//ImGui::Render();
+		//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
 		//takes the render buffer and display it on the window

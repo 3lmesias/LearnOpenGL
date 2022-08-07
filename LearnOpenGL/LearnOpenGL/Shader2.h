@@ -29,6 +29,3 @@ public:
 };
 
 #endif // !SHADER2_H
-
-
-
