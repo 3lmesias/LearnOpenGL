@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\documentos nuevaa generacion\OPEN GL\Libs\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\documentos nuevaa generacion\OPEN GL\Libs\Libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\OPEN GL\Libs\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\OPEN GL\Libs\Libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -125,7 +125,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\OPEN GL\Libs\Libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -146,10 +147,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="imgui\imgui.cpp" />
+    <ClCompile Include="imgui\imgui_demo.cpp" />
+    <ClCompile Include="imgui\imgui_draw.cpp" />
+    <ClCompile Include="imgui\imgui_tables.cpp" />
+    <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="imgui_impl_glfw.cpp" />
+    <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="OGLProgram.cpp" />
+    <ClCompile Include="PrimArray.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shader2.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -158,8 +170,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="FragmentShader.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\imstb_rectpack.h" />
+    <ClInclude Include="imgui\imstb_textedit.h" />
+    <ClInclude Include="imgui\imstb_truetype.h" />
+    <ClInclude Include="imgui_impl_glfw.h" />
+    <ClInclude Include="imgui_impl_opengl3.h" />
+    <ClInclude Include="imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Main.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="OGLProgram.h" />
+    <ClInclude Include="PrimArray.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Shader2.h" />
@@ -168,11 +194,19 @@
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="LearnOpenGL.rc" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Fragment Shader\DirectionaLight._fs" />
     <None Include="Fragment Shader\HelloTriangle._fs" />
+    <None Include="Fragment Shader\color_lighting._fs" />
+    <None Include="Fragment Shader\light_lighting._fs" />
+    <None Include="Fragment Shader\map_lighting._fs" />
+    <None Include="Fragment Shader\model_shader._fs" />
+    <None Include="Fragment Shader\MultiLight._fs" />
+    <None Include="Fragment Shader\PointLight._fs" />
+    <None Include="Fragment Shader\SpotLight._fs" />
     <None Include="Vertex Shader\HelloTriangle._vs" />
+    <None Include="Vertex Shader\cube_lighting._vs" />
+    <None Include="Vertex Shader\map_lighting._vs" />
+    <None Include="Vertex Shader\model_shader._vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

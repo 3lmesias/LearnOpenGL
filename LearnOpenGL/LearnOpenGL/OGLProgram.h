@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef OGLPROGRAM
+#define OGLPROGRAM
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Shader.h"
@@ -6,6 +10,7 @@ class OGLProgram
 {
 	char infoLog[512];
 public:
+
 	int success;
 	unsigned int shaderProgram;
 	OGLProgram() {
@@ -34,4 +39,4 @@ public:
 		}
 	}
 };
-
+#endif // !OGLPROGRAM
