@@ -1,5 +1,6 @@
 #include "Shader2.h"
 
+
 Shader2::Shader2(const char* vertexPath, const char* fragmentPath) {
 	success = true;
 	std::string fragmentCode;
@@ -89,6 +90,10 @@ void Shader2::SetFloat(const std::string& name, float value) const {
 
 void Shader2::SetVec3(const std::string& name, glm::vec3 value) const {
 	glUniform3f(glGetUniformLocation(ShaderId, name.c_str()), value.x,value.y, value.z);
+}
+
+void Shader2::setMat4(const std::string& name, glm::mat4 value) const {
+	glUniformMatrix4fv(glGetUniformLocation(ShaderId, name.c_str()), 1, GL_FALSE, glm::value_ptr(value) );
 }
 
 int Shader2::GetUniform(const std::string& name) const {

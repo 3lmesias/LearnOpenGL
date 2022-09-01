@@ -8,8 +8,9 @@
 
 class Box {
 public:
-    std::vector<Texture> textures;
-    Box(std::vector<Texture> textures);
+    Texture texture;
+    Box(Texture textures);
+    Box();
     void Draw(Shader2& shader);
 private:
     unsigned int VAO, VBO, EBO;

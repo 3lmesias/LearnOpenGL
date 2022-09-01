@@ -26,3 +26,5 @@
 #include "Model.h"
 #include <filesystem>
 #include "PrimArray.h"
+#include "box.h"
+#include "plane.h"

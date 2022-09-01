@@ -102,6 +102,18 @@
     <ClCompile Include="PrimArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Main_zdepth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main_Stencil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main_blending.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -173,6 +185,12 @@
     <ClInclude Include="Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Fragment Shader\HelloTriangle._fs">
@@ -213,6 +231,18 @@
     </None>
     <None Include="Vertex Shader\model_shader._vs">
       <Filter>Resource Files\Vertex Shader</Filter>
+    </None>
+    <None Include="Vertex Shader\depth_testing._vs">
+      <Filter>Resource Files\Vertex Shader</Filter>
+    </None>
+    <None Include="Fragment Shader\depth_testing._fs">
+      <Filter>Resource Files\Fragment Shader</Filter>
+    </None>
+    <None Include="Fragment Shader\ConstantTexture._fs">
+      <Filter>Resource Files\Fragment Shader</Filter>
+    </None>
+    <None Include="Fragment Shader\ConstantColor._fs">
+      <Filter>Resource Files\Fragment Shader</Filter>
     </None>
   </ItemGroup>
 </Project>
