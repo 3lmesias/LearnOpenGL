@@ -158,9 +158,13 @@
     <ClCompile Include="imgui_impl_glfw.cpp" />
     <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Main_blending.cpp" />
+    <ClCompile Include="Main_Stencil.cpp" />
+    <ClCompile Include="Main_zdepth.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="OGLProgram.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="PrimArray.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Shader2.cpp" />
@@ -172,6 +176,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="FragmentShader.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_internal.h" />
@@ -185,6 +190,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="OGLProgram.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="PrimArray.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
@@ -194,6 +200,9 @@
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Fragment Shader\ConstantColor._fs" />
+    <None Include="Fragment Shader\ConstantTexture._fs" />
+    <None Include="Fragment Shader\depth_testing._fs" />
     <None Include="Fragment Shader\DirectionaLight._fs" />
     <None Include="Fragment Shader\HelloTriangle._fs" />
     <None Include="Fragment Shader\color_lighting._fs" />
@@ -203,6 +212,7 @@
     <None Include="Fragment Shader\MultiLight._fs" />
     <None Include="Fragment Shader\PointLight._fs" />
     <None Include="Fragment Shader\SpotLight._fs" />
+    <None Include="Vertex Shader\depth_testing._vs" />
     <None Include="Vertex Shader\HelloTriangle._vs" />
     <None Include="Vertex Shader\cube_lighting._vs" />
     <None Include="Vertex Shader\map_lighting._vs" />

@@ -13,11 +13,10 @@ public:
 	int width;
 	int height;
 	int chanels;
-	int Bind_;
-	
+
 	unsigned int TextureId;
 
-	TextureC(const char* imagePath, int bind);
+	TextureC(const char* imagePath);
 	void Bind();
 };
 #endif // !TEXTUREC
